@@ -13,19 +13,7 @@ function Card1({ heading, description, link, className, count = 0 }) {
         <br/>
         {heading === "Reset" ? (
             <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onClick={(e)=>{
-              const key = prompt("Enter the key to reset");
-              try{
-                const response = fetch('/api/resetData', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({key}),
-                });
-              }catch(e){
-                console.error('Error fetching:', e);
-                toast.error('An error occurred while fetching.');
-              }
+              reset()
             }}>Reset</button>
 
         ) : (
@@ -40,6 +28,28 @@ function Card1({ heading, description, link, className, count = 0 }) {
     </div>
     </div>
   );
+}
+
+async function reset(){
+  const key = prompt("Enter the key to reset");
+  try{
+    const response = await fetch('/api/resetData', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({key}),
+    });
+    console.log(response)
+    if(response.ok){
+      toast.success('Data reset successfully');
+    }else{
+      toast.error('An error occurred while resetting.');
+    }
+  }catch(e){
+    console.error('Error fetching:', e);
+    toast.error('An error occurred while fetching.');
+  }
 }
 
 export default function DashPanel(){

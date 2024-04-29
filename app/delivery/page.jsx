@@ -23,6 +23,7 @@ export default function Delivery() {
       if (response.ok) {
         toast.success("Delivered Successfully");
         setResult({});
+        setId("");
         setKits(0);
       }else{
         const data = await response.json();
@@ -42,14 +43,15 @@ export default function Delivery() {
           "Content-Type": "application/json",
         },
       });
+      const data = await response.json();
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
         setResult(data);
         setId("");
         if(data.message === "Already Delivered"){
           toast.error("Already Delivered");
         }
+      }else{
+        toast.error(data.message);
       }
     } catch (error) {
       console.error("Failed to fetch data", error);
