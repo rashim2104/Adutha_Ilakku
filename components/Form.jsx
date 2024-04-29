@@ -119,7 +119,7 @@ export default function Form() {
           />{" "}
           Others
         </label>
-        {classValue === "Others" && (
+        {classValue === "Other" && (
           <>
             <span className="">
               Please Specify<span className="required">*</span>
