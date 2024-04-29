@@ -16,6 +16,8 @@ function Card1({ heading, description, link, className }) {
 export default function DashPanel(){
     const [details, setDetails] = useState(0);
     const [parents, setParents] = useState(0); // New state variable for total parents
+    const [delivered, setDelivered] = useState(0);
+    const [notDelivered, setNotDelivered] = useState(0);
 
     useEffect(()=>{
       detailsGetter();

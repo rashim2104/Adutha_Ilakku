@@ -216,9 +216,11 @@ export default function Form() {
         </button>
       </form>
       )}
-      <div className="h-[46.5vh] pt-16 w-full">
+      {isDownload !== "" && (
+        <div className="h-[46.5vh] pt-16 w-full">
         <center>{isDownload !== "" && <BarCode data={isDownload} />}</center>
-      </div>
+      </div>  
+      )}
     </>
   );
 }
