@@ -4,17 +4,18 @@ import { Details } from '@/models/details';
 
 export async function POST(req){
     await connectMongoDB();
+    try{
     const data = await req.json();
     const student = await Details.findOne({ ae_id : data.id });
     if(!student){
-        return NextResponse.json({message: "Student not found"});
+        return NextResponse.json({message: "Student not found"},{status : 400});
     }
-console.log(student);
-const isDelivered = student.Delivered; // Correct the spelling here
-console.log(isDelivered);
-console.log(typeof(isDelivered));
+    const isDelivered = student.Delivered;
     if(isDelivered !== 0){
-        return NextResponse.json({message: "Already Delivered"});
+        return NextResponse.json({message: "Already Delivered"},{status : 400});
     }
-    return NextResponse.json(student);
+    return NextResponse.json(student,{status : 200});
+    }catch(e){
+        return NextResponse.json({message: `An error occurred: ${e}`},{status : 500});
+    }
 }

@@ -1,18 +1,31 @@
 "use client";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import BarCode from "./BarCode";
+import { useRouter } from "next/navigation";
 
-export default function Form() {
+export default function UpdateForm(props) {
+    const router = useRouter();
   const {
     register,
     handleSubmit,
     reset,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: "all",
+    defaultValues: {
+        Name: props.Name,
+        DOB: new Date(props.DOB).toISOString().split('T')[0],
+        Mobile: props.Mobile,
+        Class: props.Class,
+        Group: props.Group,
+        Parents: props.Parents,
+        ClassOther: props.ClassOther,
+        GroupOther: props.GroupOther,
+        Delivered: props.Delivered,
+    },
+  });
   const [loading, setLoading] = useState(false);
-  const [isDownload, setIsDownload] = useState("");
 
   const classValue = watch("Class");
   const groupValue = watch("Group");
@@ -21,7 +34,7 @@ export default function Form() {
     setLoading(true);
     let respData;
     try {
-      const response = await fetch("/api/createDetails", {
+      const response = await fetch("/api/updateDetails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,8 +43,8 @@ export default function Form() {
       });
       respData = await response.json();
       if (response.ok) {
-        toast.success("Form submitted successfully");
-        setIsDownload(respData.message);
+        alert("Form Updated successfully");
+        router.replace("/dash-panel");
         reset();
       } else {
         alert(respData.message);
@@ -45,10 +58,8 @@ export default function Form() {
 
   return (
     <>
-      <h1 className='text-4xl font-bold mt-4 mb-10'>Registration Form</h1>
-      { isDownload === "" && (
         <form className="form" onSubmit={handleSubmit(onSubmit)}>
-        <label className="font-bold" htmlFor="name">
+        <label htmlFor="name">
           Student Name<span className="required">*</span>
         </label>
         <input
@@ -60,7 +71,7 @@ export default function Form() {
         )}
 
         {/* DOB Input */}
-        <label className="font-bold" htmlFor="dob">
+        <label htmlFor="dob">
           DOB<span className="required">*</span>
         </label>
         <input
@@ -71,7 +82,7 @@ export default function Form() {
         {errors.DOB && <p className="required text-sm">{errors.DOB.message}</p>}
 
         {/* Mobile Number Input */}
-        <label className="font-bold" htmlFor="mobile">
+        <label htmlFor="mobile">
           Mobile Number<span className="required">*</span>
         </label>
         <input
@@ -90,7 +101,7 @@ export default function Form() {
         )}
 
         {/* Class Radio Input */}
-        <label className="font-bold">
+        <label>
           Class<span className="required">*</span>
         </label>
         <label>
@@ -138,7 +149,7 @@ export default function Form() {
         )}
 
         {/* Group Radio Input */}
-        <label className="font-bold">
+        <label>
           Group<span className="required">*</span>
         </label>
         <label>
@@ -194,7 +205,7 @@ export default function Form() {
         )}
 
         {/* No of parents Input */}
-        <label className="font-bold" htmlFor="parents">
+        <label htmlFor="parents">
           No of parents accompanied<span className="required">*</span>
         </label>
         <input
@@ -213,15 +224,9 @@ export default function Form() {
           type="submit"
           disabled={loading}
         >
-          {loading ? "Submitting..." : "Submit"}
+          {loading ? "Updating..." : "Update"}
         </button>
       </form>
-      )}
-      {isDownload !== "" && (
-        <div className="h-[46.5vh] pt-16 w-full">
-        <center>{isDownload !== "" && <BarCode data={isDownload} />}</center>
-      </div>  
-      )}
     </>
   );
 }

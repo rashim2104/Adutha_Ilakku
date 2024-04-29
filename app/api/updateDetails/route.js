@@ -2,20 +2,6 @@ import { NextResponse } from "next/server";
 import { connectMongoDB } from "@/lib/mongodb";
 import { Details } from '@/models/details';
 import Joi from "joi";
-import { useBarcode } from 'next-barcode';
-
-const barCodeGen = (data) => { 
-    const { inputRef } = useBarcode({
-      value: data,
-      options: {
-        background: "#ffffff",
-        width: 2,
-        height: 60,
-      },
-    });
-    return <svg ref={inputRef} />;
-  
-}
 
 const schema = Joi.object({
   Name: Joi.string().required(),
@@ -29,6 +15,7 @@ const schema = Joi.object({
     then: Joi.required(),
   }),
   GroupOther: Joi.string().when("Group", { is: "Other", then: Joi.required() }),
+  Delivered: Joi.number().integer().min(0).required(),
 });
 
 export async function POST(req) {
@@ -41,18 +28,8 @@ export async function POST(req) {
       throw new Error(`Invalid data: ${error.details[0].message}`);
     }
     // Mob Num Check
-    const mobile = await Details.findOne({ Mobile: data.Mobile });
-    if (mobile) {
-      throw new Error("Mobile number already exists");
-    }
-    const count = await Details.countDocuments();
-    // Create Data
-    const newData = new Details({
-      ...data,
-      ae_id: `LMES${(count + 1).toString().padStart(4, "0")}`,
-    });
-    await newData.save();
-    return NextResponse.json({ status: 200}, {message: `LMES${(count + 1).toString().padStart(4, "0")}` });
+    const mobile = await Details.findOneAndUpdate({ Mobile: data.Mobile },{ $set: { Name: data.Name, DOB: data.DOB, Class: data.Class, Group: data.Group, Parents: data.Parents, ClassOther: data.ClassOther, GroupOther: data.GroupOther,Delivered:data.Delivered } });
+    return NextResponse.json({ status: 200}, {message: "Updated successfully" });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: error.message }, { status: 400 });

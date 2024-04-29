@@ -20,12 +20,12 @@ export default function Delivery() {
         },
       });
       if (response.ok) {
-        alert("Delivered Successfully");
+        toast.success("Delivered Successfully");
         setResult({});
         setKits(0);
       }else{
         const data = await response.json();
-        alert(data.message);
+        toast.error(data.message);
       }
     } catch (error) {
       console.error("Failed to fetch data", error);
@@ -36,7 +36,7 @@ export default function Delivery() {
     try {
       const response = await fetch(`/api/getDetails`, {
         method: "POST",
-        body: JSON.stringify({ id: id }),
+        body: JSON.stringify({ id: "LMES"+id }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -47,7 +47,7 @@ export default function Delivery() {
         setResult(data);
         setId("");
         if(data.message === "Already Delivered"){
-          alert("Already Delivered");
+          toast.error("Already Delivered");
         }
       }
     } catch (error) {
@@ -56,21 +56,22 @@ export default function Delivery() {
   }
 
   useEffect(() => {
-    if (id.length > 7) {
+    if (id.length > 3) {
       getDetails(id);
     }
   }, [id]);
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex p-6 w-1/4 flex-col justify-center">
-        <label htmlFor="">ID Number: </label>
-        <input
-          className="input"
-          value={id}
-          type="text"
-          onChange={handleChange}
-        />
+                  <h1 className='text-4xl font-bold mt-4 mb-10'>Deliver Kits</h1>
+      <div className="flex p-6 flex-col justify-center">
+        <label htmlFor="" className="mb-3">ID Number: </label>
+        <div className="flex border-black border-2">
+        <span className="bg-yellow-200 p-3">
+            LMES
+        </span>
+        <input type="tel" placeholder="XXXX" onChange={handleChange} style={{ textAlign: 'center', outline: 'none' }}/>      
+      </div>
       </div>
       {result.Name && (
         <>
