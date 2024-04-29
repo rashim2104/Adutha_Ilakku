@@ -1,0 +1,24 @@
+{
+  "name": "ae_site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "mongoose": "^8.3.2",
+    "next": "14.2.3",
+    "next-barcode": "^1.5.0",
+    "next-joi": "^2.2.1",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hook-form": "^7.51.3"
+  },
+  "devDependencies": {
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1"
+  }
+}
