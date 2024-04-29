@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
 function Card1({ heading, description, link, className, count = 0 }) {
   return (
     <div className={`flex gap-4 rounded-xl shadow-sm p-6 ${className}`}>
@@ -56,7 +58,6 @@ export default function DashPanel(){
     const [parents, setParents] = useState(0); // New state variable for total parents
     const [students, setStudents] = useState(0); // New state variable for total students
     const [delivered, setDelivered] = useState(0);
-    const [notDelivered, setNotDelivered] = useState(0);
 
     useEffect(()=>{
       detailsGetter();
