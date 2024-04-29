@@ -46,7 +46,6 @@ export default function Delivery() {
       const data = await response.json();
       if (response.ok) {
         setResult(data);
-        setId("");
         if(data.message === "Already Delivered"){
           toast.error("Already Delivered");
         }
@@ -61,19 +60,20 @@ export default function Delivery() {
   useEffect(() => {
     if (id.length > 3) {
       getDetails(id);
+      setResult({});
     }
   }, [id]);
 
   return (
     <div className="flex flex-col items-center">
-                  <h1 className='text-4xl font-bold mt-4 mb-10'>Deliver Kits</h1>
+      <h1 className='text-4xl font-bold mt-4 mb-10'>Deliver Kits</h1>
       <div className="flex p-6 flex-col justify-center">
         <label htmlFor="" className="mb-3">ID Number: </label>
         <div className="flex border-black border-2">
         <span className="bg-yellow-200 p-3">
             LMES
         </span>
-        <input type="tel" placeholder="XXXX" onChange={handleChange} style={{ textAlign: 'center', outline: 'none' }}/>      
+        <input type="tel" value={id} placeholder="XXXX" onChange={handleChange} style={{ textAlign: 'center', outline: 'none' }}/>      
       </div>
       </div>
       {result.Name && (
