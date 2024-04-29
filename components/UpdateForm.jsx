@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function UpdateForm(props) {
     const router = useRouter();
@@ -43,11 +44,11 @@ export default function UpdateForm(props) {
       });
       respData = await response.json();
       if (response.ok) {
-        alert("Form Updated successfully");
+        toast.success("Form Updated successfully");
         router.replace("/dash-panel");
         reset();
       } else {
-        alert(respData.message);
+        toast.error(respData.message);
       }
     } catch (error) {
       console.error("Failed to submit form", error);

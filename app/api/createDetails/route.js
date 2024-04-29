@@ -52,7 +52,7 @@ export async function POST(req) {
       ae_id: `LMES${(count + 1).toString().padStart(4, "0")}`,
     });
     await newData.save();
-    return NextResponse.json({ status: 200}, {message: `LMES${(count + 1).toString().padStart(4, "0")}` });
+    return NextResponse.json({message: `LMES${(count + 1).toString().padStart(4, "0")}` },{ status: 200});
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: error.message }, { status: 400 });

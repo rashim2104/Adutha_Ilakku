@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
 function Card1({ heading, description, link, className, count = 0 }) {
   return (
     <div className={`flex gap-4 rounded-xl shadow-sm p-6 ${className}`}>

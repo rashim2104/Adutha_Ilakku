@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import BarCode from "./BarCode";
+import { toast } from "sonner";
 
 export default function Form() {
   const {
@@ -31,10 +32,11 @@ export default function Form() {
       respData = await response.json();
       if (response.ok) {
         toast.success("Form submitted successfully");
+        console.log(respData.message);
         setIsDownload(respData.message);
         reset();
       } else {
-        alert(respData.message);
+        toast.error(respData.message);
       }
     } catch (error) {
       console.error("Failed to submit form", error);
