@@ -17,7 +17,8 @@ function QrCode(props) {
   };
 
   return (
-    <div ref={qrRef}>
+    <div >
+      <div className='bg-white' ref={qrRef}>
       <Image
         text={props.data}
         options={{
@@ -28,12 +29,13 @@ function QrCode(props) {
           scale: 4,
           width: 200,
           color: {
-            dark: '#000000',
+            dark: '#10283d',
             light: '#FFFFFF',
           },
         }}
       />
-      <h1 className='font-mono font-bold'>{props.data}</h1>
+      <h1 className='font-mono font-bold text-2xl bg-white'>{props.data}</h1>
+      </div>
       <button className='button' onClick={handleDownload}>Download QR Code</button>
     </div>
   );

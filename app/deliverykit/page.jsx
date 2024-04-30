@@ -31,6 +31,8 @@ export default function Delivery() {
         idInputRef.current.focus();
         setId("");
         setKits(0);
+        idInputRef.current.focus();
+
       }else{
         const data = await response.json();
         toast.error(data.message);
@@ -58,6 +60,7 @@ export default function Delivery() {
         idInputRef.current.focus();
         setId("");
         setKits(0);
+        idInputRef.current.focus();
       }else{
         const data = await response.json();
         toast.error(data.message);

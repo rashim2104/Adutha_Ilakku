@@ -208,7 +208,7 @@ export default function DashPanel(){
         <Card1
         className="bg-blue-100"
         heading="Deliver Kits"
-        link="/delivery"
+        link="/deliverykit"
         description="Add a New Kit Delivery."
         count = {delivered}
         // icon={<GiAbstract024 size="2.5rem" className="text-[#DDA10C]" />}

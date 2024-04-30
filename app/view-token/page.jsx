@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import BarCode from "@/components/QrCode";
+import QrCode from "@/components/QrCode";
 import { toast } from "sonner";
 
 export default function ViewToken() {
@@ -66,7 +66,7 @@ export default function ViewToken() {
               <p>Group: {formData.Group}</p>
               <p>Parents Accompanied: {formData.Parents}</p>
               <p>Delivered: {formData.Delivered}</p>
-              <center>{<BarCode data={formData.ae_id} />}</center>
+              <center>{<QrCode data={formData.ae_id} />}</center>
             </div>
           }
         </div>
