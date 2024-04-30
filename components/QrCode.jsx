@@ -11,7 +11,7 @@ function QrCode(props) {
     if (qrRef.current) {
       domtoimage.toBlob(qrRef.current)
         .then(function (blob) {
-          saveAs(blob, 'QRCode.png');
+          saveAs(blob, `QRCode_${props.data}.png`);
         });
     }
   };

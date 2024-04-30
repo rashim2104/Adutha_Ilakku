@@ -6,6 +6,7 @@ import { toast } from "sonner";
 export default function Delivery() {
   const [id, setId] = useState("");
   const [result, setResult] = useState({});
+  const idInputRef = useRef();
   const [kits, setKits] = useState(0);
   const [isOther, setIsOther] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -27,6 +28,7 @@ export default function Delivery() {
       if (response.ok) {
         toast.success("Delivered Successfully");
         setResult({});
+        idInputRef.current.focus();
         setId("");
         setKits(0);
       }else{
@@ -53,6 +55,7 @@ export default function Delivery() {
       if (response.ok) {
         toast.success("Delivered Successfully");
         setResult({});
+        idInputRef.current.focus();
         setId("");
         setKits(0);
       }else{
@@ -102,7 +105,15 @@ export default function Delivery() {
       <div className="flex p-6 flex-col justify-center">
         <label htmlFor="" className="mb-3">ID Number: </label>
         <div className="flex">
-          <input className="input" type="tel" value={id} placeholder="XXXX" onChange={handleChange} style={{ textAlign: 'center', outline: 'none' }}/>      
+        <input
+        ref={idInputRef}
+        className="input"
+        type="tel"
+        value={id}
+        placeholder="XXXX"
+        onChange={handleChange}
+        style={{ textAlign: 'center', outline: 'none' }}
+      />
       </div>
       </div>
       {result.Name && (
