@@ -42,7 +42,6 @@ async function reset(){
       },
       body: JSON.stringify({key}),
     });
-    console.log(response)
     if(response.ok){
       toast.success('Data reset successfully');
     }else{
