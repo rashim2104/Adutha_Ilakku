@@ -19,7 +19,7 @@ const DetailSchema = new Schema({
   },
   Group: {
     type: String,
-    required: true,
+    default: "-",
   },
   Parents: {
     type: Number,

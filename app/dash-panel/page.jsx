@@ -14,12 +14,12 @@ function Card1({ heading, description, link, className, count = 0 }) {
         {count > 0 && (<p className="leading-8 text-gray-500 font-normal">Kits Delivered : <strong>{count}</strong></p>)}
         <br/>
         {heading === "Reset" ? (
-            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onClick={(e)=>{
-              reset()
-            }}>Reset</button>
-
+          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onClick={(e)=>{
+            reset()
+          }}>Reset</button>
+          
         ) : (
-            <>
+          <>
             <Link href={`${link}`}>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                     {heading}
@@ -55,7 +55,8 @@ async function reset(){
 }
 
 export default function DashPanel(){
-    const [parents, setParents] = useState(0); // New state variable for total parents
+  const [classGroupCounts, setClassGroupCounts] = useState({}); 
+  const [parents, setParents] = useState(0); // New state variable for total parents
     const [students, setStudents] = useState(0); // New state variable for total students
     const [delivered, setDelivered] = useState(0);
 
@@ -71,10 +72,35 @@ export default function DashPanel(){
 
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
+        
         let totalStudentsCount = 0;
         let totalParentsCount = 0;
         let totalDeliveredCount = 0; // New variable for total delivered count
-
+        let classGroupCounts = data.fullRecord.reduce((acc, detail) => {
+          if (!acc[detail.Class]) {
+            acc[detail.Class] = {};
+          }
+    
+          if (!acc[detail.Class][detail.Group]) {
+            acc[detail.Class][detail.Group] = 0;
+          }
+    
+          acc[detail.Class][detail.Group]++;
+    
+          return acc;
+        }, {});
+    
+        // Sort the classes
+        classGroupCounts = Object.entries(classGroupCounts).sort(([classA], [classB]) => {
+          const order = ['Class 12', 'Class 11','Class 10','Class 9', 'Other']; // The order you want
+          return order.indexOf(classA) - order.indexOf(classB);
+        }).reduce((acc, [className, groups]) => {
+          acc[className] = groups;
+          return acc;
+        }, {});
+    
+        setClassGroupCounts(classGroupCounts); 
         data.fullRecord.forEach(detail => {
           totalStudentsCount++;
           totalParentsCount += detail.Parents;
@@ -133,6 +159,34 @@ export default function DashPanel(){
           </div>
         </div>
       </div>
+      {/* DB Statistics*/}
+      <div className="grid gap-8 grid-cols-1 md:grid-cols-2 xl:grid-cols-2 bg-white p-3 sm:p-8">
+        {Object.entries(classGroupCounts).map(([className, groups]) => (
+          <div key={className} className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <h2 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{className}</h2>
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Group</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Count</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {Object.entries(groups).map(([groupName, count]) => (
+                  <tr key={groupName}>
+                    <td className="px-6 py-4 whitespace-nowrap">{groupName}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{count}</td>
+                  </tr>
+                ))}
+                <tr>
+                  <td className="px-6 bg-green-100 py-4 whitespace-nowrap font-medium">Total</td>
+                  <td className="px-6 bg-green-100 py-4 whitespace-nowrap font-medium">{Object.values(groups).reduce((a, b) => a + b, 0)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </div>
       <br/><br/>
       <p className="mx-auto mb-4 text-4xl text-gray-600 sm:text-center lg:max-w-2xl lg:mb-6 md:px-16">
         Admin Controls
@@ -174,6 +228,7 @@ export default function DashPanel(){
         description="Reset the details of all the students."
         // icon={<GiAbstract024 size="2.5rem" className="text-[#DDA10C]" />}
       />
+
       </div>
       
     </div>

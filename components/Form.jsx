@@ -11,7 +11,20 @@ export default function Form() {
     reset,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm(
+    {
+      defaultValues: {
+        Name: "",
+        DOB: "",
+        Mobile: "",
+        Class: "",
+        Group: "-",
+        Parents: 0,
+        ClassOther: "",
+        GroupOther: "",
+      },
+    }
+  );
   const [loading, setLoading] = useState(false);
   const [isDownload, setIsDownload] = useState("");
 
@@ -19,6 +32,7 @@ export default function Form() {
   const groupValue = watch("Group");
 
   const onSubmit = async (data) => {
+    console.log(data);
     setLoading(true);
     let respData;
     try {
@@ -98,18 +112,34 @@ export default function Form() {
         <label>
           <input
             type="radio"
-            value="XI"
+            value="Class 9"
             {...register("Class", { required: "This field is required" })}
           />{" "}
-          XI
+          Class 9
         </label>
         <label>
           <input
             type="radio"
-            value="XII"
+            value="Class 10"
             {...register("Class", { required: "This field is required" })}
           />{" "}
-          XII
+          Class 10
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="Class 11"
+            {...register("Class", { required: "This field is required" })}
+          />{" "}
+          Class 11
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="Class 12"
+            {...register("Class", { required: "This field is required" })}
+          />{" "}
+          Class 12
         </label>
         <label>
           <input
@@ -139,7 +169,9 @@ export default function Form() {
           <p className="required">{errors.ClassOther.message}</p>
         )}
 
-        {/* Group Radio Input */}
+        {(classValue === "Class 11" || classValue === "Class 12") && (
+          <>
+          {/* Group Radio Input */}
         <label className="font-bold">
           Group<span className="required">*</span>
         </label>
@@ -193,6 +225,8 @@ export default function Form() {
         )}
         {errors.GroupOther && (
           <p className="required text-sm">{errors.GroupOther.message}</p>
+        )}
+          </>
         )}
 
         {/* No of parents Input */}

@@ -2,33 +2,16 @@ import { NextResponse } from "next/server";
 import { connectMongoDB } from "@/lib/mongodb";
 import { Details } from '@/models/details';
 import Joi from "joi";
-import { useBarcode } from 'next-barcode';
-
-const barCodeGen = (data) => { 
-    const { inputRef } = useBarcode({
-      value: data,
-      options: {
-        background: "#ffffff",
-        width: 2,
-        height: 60,
-      },
-    });
-    return <svg ref={inputRef} />;
-  
-}
 
 const schema = Joi.object({
   Name: Joi.string().required(),
   DOB: Joi.date().required(),
   Mobile: Joi.string().pattern(new RegExp("^[0-9]{10}$")).required(),
-  Class: Joi.string().valid("XI", "XII", "Other").required(),
-  Group: Joi.string().valid("PCMB", "PCMC", "COMM", "Other").required(),
+  Class: Joi.string().required(),
+  Group: Joi.string().allow(""),
   Parents: Joi.number().integer().min(0).required(),
-  ClassOther: Joi.string().when("Class", {
-    is: "Others",
-    then: Joi.required(),
-  }),
-  GroupOther: Joi.string().when("Group", { is: "Other", then: Joi.required() }),
+  ClassOther: Joi.string().allow(""),
+  GroupOther: Joi.string().allow(""),
 });
 
 export async function POST(req) {
@@ -49,10 +32,10 @@ export async function POST(req) {
     // Create Data
     const newData = new Details({
       ...data,
-      ae_id: `LMES${(count + 1).toString().padStart(4, "0")}`,
+      ae_id: `AI${(count + 1).toString().padStart(4, "0")}`,
     });
     await newData.save();
-    return NextResponse.json({message: `LMES${(count + 1).toString().padStart(4, "0")}` },{ status: 200});
+    return NextResponse.json({message: `AI${(count + 1).toString().padStart(4, "0")}` },{ status: 200});
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: error.message }, { status: 400 });
