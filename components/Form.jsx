@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import BarCode from "./BarCode";
+import QrCode from "./QrCode";
 import { toast } from "sonner";
 
 export default function Form() {
@@ -255,7 +255,7 @@ export default function Form() {
       )}
       {isDownload !== "" && (
         <div className="h-[46.5vh] pt-16 w-full">
-        <center>{isDownload !== "" && <BarCode data={isDownload} />}</center>
+        <center>{isDownload !== "" && <QrCode data={isDownload} />}</center>
       </div>  
       )}
     </>

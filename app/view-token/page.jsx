@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import BarCode from "@/components/BarCode";
+import BarCode from "@/components/QrCode";
 import { toast } from "sonner";
 
 export default function ViewToken() {
