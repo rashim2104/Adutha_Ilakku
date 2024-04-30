@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.2.2",
+    "@vercel/speed-insights": "^1.0.10",
     "mongoose": "^8.3.2",
     "next": "14.2.3",
     "next-barcode": "^1.5.0",
     "next-joi": "^2.2.1",
+    "next-qrcode": "^2.5.1",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",

@@ -1,4 +1,5 @@
 "use client";
+import { set } from "mongoose";
 import { useState, useEffect, act } from "react";
 import { toast } from "sonner";
 
@@ -6,12 +7,15 @@ export default function Delivery() {
   const [id, setId] = useState("");
   const [result, setResult] = useState({});
   const [kits, setKits] = useState(0);
+  const [isOther, setIsOther] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setId(e.target.value);
   }
   const handleDeliver = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await fetch(`/api/deliver`, {
         method: "POST",
@@ -31,6 +35,34 @@ export default function Delivery() {
       }
     } catch (error) {
       console.error("Failed to fetch data", error);
+    } finally {
+       setLoading(false);
+    }
+  };
+
+  const handleDeliverFast = async (count) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/deliver`, {
+        method: "POST",
+        body: JSON.stringify({ Mobile: result.Mobile, Kits: count}),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        toast.success("Delivered Successfully");
+        setResult({});
+        setId("");
+        setKits(0);
+      }else{
+        const data = await response.json();
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error("Failed to fetch data", error);
+    } finally {
+       setLoading(false);
     }
   };
 
@@ -58,7 +90,7 @@ export default function Delivery() {
   }
 
   useEffect(() => {
-    if (id.length > 5) {
+    if (id.length > 11) {
       getDetails(id);
       setResult({});
     }
@@ -82,20 +114,28 @@ export default function Delivery() {
           </div>
           <div className="flex p-6 flex-col justify-center">
             <label htmlFor="">No of Kits Distributed:</label>
-            <input
+            <div className="flex gap-3">
+            <button className="button" onClick={((e) => {handleDeliverFast(1);})}>1</button>
+            <button className="button" onClick={((e) => {handleDeliverFast(2);})}>2</button>
+            <button className="button" onClick={() => {
+              setIsOther((prev) => !prev);
+            }}>Other</button></div>
+           {isOther && (<><input
               value={kits}
               type="tel"
               className="input"
               onChange={(e) => setKits(e.target.value)}
             />
             <center>
+
               <button
                 className="bg-green-200 rounded-full p-4 w-1/2 mt-6"
+                disabled={loading}
                 onClick={handleDeliver}
               >
                 Update
               </button>
-            </center>
+            </center></>)}
           </div>
         </>
       )}
