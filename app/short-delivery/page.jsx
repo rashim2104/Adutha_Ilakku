@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, act } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 export default function Delivery() {
@@ -15,7 +15,7 @@ export default function Delivery() {
     try {
       const response = await fetch(`/api/deliver`, {
         method: "POST",
-        body: JSON.stringify({ Mobile: result.Mobile, Kits: kits}),
+        body: JSON.stringify({ Mobile: result.Mobile, Kits: kits }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -38,7 +38,7 @@ export default function Delivery() {
     try {
       const response = await fetch(`/api/getDetails`, {
         method: "POST",
-        body: JSON.stringify({ id: id , action : "long"}),
+        body: JSON.stringify({ id: id, action : "short" }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -58,7 +58,7 @@ export default function Delivery() {
   }
 
   useEffect(() => {
-    if (id.length > 5) {
+    if (id.length > 3) {
       getDetails(id);
       setResult({});
     }
@@ -66,7 +66,7 @@ export default function Delivery() {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className='text-4xl font-bold mt-4 mb-10'>Deliver Kits</h1>
+      <h1 className='text-4xl font-bold mt-4 mb-10'>Short Deliver Kits</h1>
       <div className="flex p-6 flex-col justify-center">
         <label htmlFor="" className="mb-3">ID Number: </label>
         <div className="flex">

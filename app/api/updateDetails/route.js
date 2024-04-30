@@ -7,15 +7,12 @@ const schema = Joi.object({
   Name: Joi.string().required(),
   DOB: Joi.date().required(),
   Mobile: Joi.string().pattern(new RegExp("^[0-9]{10}$")).required(),
-  Class: Joi.string().valid("XI", "XII", "Others").required(),
-  Group: Joi.string().valid("PCMB", "PCMC", "COMM", "Other").required(),
+  Class: Joi.string().required(),
+  Group: Joi.string().allow(""),
   Parents: Joi.number().integer().min(0).required(),
-  ClassOther: Joi.string().when("Class", {
-    is: "Others",
-    then: Joi.required(),
-  }),
-  GroupOther: Joi.string().when("Group", { is: "Other", then: Joi.required() }),
-  Delivered: Joi.number().integer().min(0).required(),
+  ClassOther: Joi.string().allow(""),
+  GroupOther: Joi.string().allow(""),
+  Delivered : Joi.number().integer().min(0).required(),
 });
 
 export async function POST(req) {

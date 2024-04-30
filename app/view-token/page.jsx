@@ -6,6 +6,7 @@ import { toast } from "sonner";
 export default function ViewToken() {
   const [mobile, setMobile] = useState("");
   const [formData, setFormData] = useState(null);
+  const [date, setDate] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +21,9 @@ export default function ViewToken() {
       const respData = await response.json();
       if (response.ok) {
         setFormData(respData.fullRecord);
+        const date = new Date(respData.fullRecord.DOB);
+        const formattedDate = date.toLocaleDateString("en-GB"); // Use 'en-GB' locale to get the date in 'dd/mm/yyyy' format
+        setDate(formattedDate);
       } else {
         toast.error(respData.message);
       }
@@ -29,42 +33,44 @@ export default function ViewToken() {
   };
   return (
     <div className="flex flex-col">
-        <center><h1 className='text-4xl font-bold mb-10 mt-4'>View Details</h1></center>
-        <div className="flex flex-col p-4">
+      <center>
+        <h1 className="text-4xl font-bold mb-10 mt-4">View Details</h1>
+      </center>
+      <div className="flex flex-col p-4">
         <label htmlFor="">Enter Mobile Number</label>
         <input
-            type="tel"
-            className="input"
-            name=""
-            id=""
-            onChange={(e) => setMobile(e.target.value)}
+          type="tel"
+          className="input"
+          name=""
+          id=""
+          onChange={(e) => setMobile(e.target.value)}
         />
         <center>
-            {" "}
-            <button
+          {" "}
+          <button
             className="bg-green-300 p-4 mt-4 rounded-full"
             onClick={handleSubmit}
-            >
+          >
             Submit
-            </button>
+          </button>
         </center>
-        </div>
-        {formData && (
+      </div>
+      {formData && (
         <div className="flex flex-col p-4">
-            {
-                <div>
-                    <p>Name: {formData.Name}</p>
-                    <p>DOB: {formData.DOB}</p>
-                    <p>Mobile: {formData.Mobile}</p>
-                    <p>Class: {formData.Class}</p>
-                    <p>Group: {formData.Group}</p>
-                    <p>Parents Accompanied: {formData.Parents}</p>
-                    <p>Delivered: {formData.Delivered}</p>
-                    <center>{<BarCode data={formData.ae_id} />}</center>
-                </div>
-            }
+          {
+            <div>
+              <p>Name: {formData.Name}</p>
+              <p>DOB: {date}</p>
+              <p>Mobile: {formData.Mobile}</p>
+              <p>Class: {formData.Class}</p>
+              <p>Group: {formData.Group}</p>
+              <p>Parents Accompanied: {formData.Parents}</p>
+              <p>Delivered: {formData.Delivered}</p>
+              <center>{<BarCode data={formData.ae_id} />}</center>
+            </div>
+          }
         </div>
-    )}
+      )}
     </div>
   );
 }

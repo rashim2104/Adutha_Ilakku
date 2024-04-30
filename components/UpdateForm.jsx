@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export default function UpdateForm(props) {
-    const router = useRouter();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -15,15 +15,15 @@ export default function UpdateForm(props) {
   } = useForm({
     mode: "all",
     defaultValues: {
-        Name: props.Name,
-        DOB: new Date(props.DOB).toISOString().split('T')[0],
-        Mobile: props.Mobile,
-        Class: props.Class,
-        Group: props.Group,
-        Parents: props.Parents,
-        ClassOther: props.ClassOther,
-        GroupOther: props.GroupOther,
-        Delivered: props.Delivered,
+      Name: props.Name,
+      DOB: new Date(props.DOB).toISOString().split("T")[0],
+      Mobile: props.Mobile,
+      Class: props.Class,
+      Group: props.Group,
+      Parents: props.Parents,
+      ClassOther: props.ClassOther,
+      GroupOther: props.GroupOther,
+      Delivered: props.Delivered,
     },
   });
   const [loading, setLoading] = useState(false);
@@ -59,7 +59,7 @@ export default function UpdateForm(props) {
 
   return (
     <>
-        <form className="form" onSubmit={handleSubmit(onSubmit)}>
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="name">
           Student Name<span className="required">*</span>
         </label>
@@ -102,24 +102,40 @@ export default function UpdateForm(props) {
         )}
 
         {/* Class Radio Input */}
-        <label>
+        <label className="font-bold">
           Class<span className="required">*</span>
         </label>
         <label>
           <input
             type="radio"
-            value="XI"
+            value="Class 9"
             {...register("Class", { required: "This field is required" })}
           />{" "}
-          XI
+          Class 9
         </label>
         <label>
           <input
             type="radio"
-            value="XII"
+            value="Class 10"
             {...register("Class", { required: "This field is required" })}
           />{" "}
-          XII
+          Class 10
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="Class 11"
+            {...register("Class", { required: "This field is required" })}
+          />{" "}
+          Class 11
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="Class 12"
+            {...register("Class", { required: "This field is required" })}
+          />{" "}
+          Class 12
         </label>
         <label>
           <input
@@ -129,7 +145,7 @@ export default function UpdateForm(props) {
           />{" "}
           Others
         </label>
-        {classValue === "Others" && (
+        {classValue === "Other" && (
           <>
             <span className="">
               Please Specify<span className="required">*</span>
@@ -149,60 +165,64 @@ export default function UpdateForm(props) {
           <p className="required">{errors.ClassOther.message}</p>
         )}
 
-        {/* Group Radio Input */}
-        <label>
-          Group<span className="required">*</span>
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="PCMB"
-            {...register("Group", { required: "This field is required" })}
-          />{" "}
-          Phy/Chem/Math/Bio
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="PCMC"
-            {...register("Group", { required: "This field is required" })}
-          />{" "}
-          Phy/Chem/Math/CS
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="COMM"
-            {...register("Group", { required: "This field is required" })}
-          />{" "}
-          Commerce
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="Other"
-            {...register("Group", { required: "This field is required" })}
-          />{" "}
-          Other
-        </label>
-        {groupValue === "Other" && (
+        {(classValue === "Class 11" || classValue === "Class 12") && (
           <>
-            <span className="">
-              Please Specify<span className="required">*</span>
-            </span>
-            <input
-              className="input"
-              {...register("GroupOther", {
-                required: "This field is required",
-              })}
-            />
+            {/* Group Radio Input */}
+            <label className="font-bold">
+              Group<span className="required">*</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="PCMB"
+                {...register("Group", { required: "This field is required" })}
+              />{" "}
+              Phy/Chem/Math/Bio
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="PCMC"
+                {...register("Group", { required: "This field is required" })}
+              />{" "}
+              Phy/Chem/Math/CS
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="COMM"
+                {...register("Group", { required: "This field is required" })}
+              />{" "}
+              Commerce
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="Other"
+                {...register("Group", { required: "This field is required" })}
+              />{" "}
+              Other
+            </label>
+            {groupValue === "Other" && (
+              <>
+                <span className="">
+                  Please Specify<span className="required">*</span>
+                </span>
+                <input
+                  className="input"
+                  {...register("GroupOther", {
+                    required: "This field is required",
+                  })}
+                />
+              </>
+            )}
+            {errors.Group && (
+              <p className="required text-sm">{errors.Group.message}</p>
+            )}
+            {errors.GroupOther && (
+              <p className="required text-sm">{errors.GroupOther.message}</p>
+            )}
           </>
-        )}
-        {errors.Group && (
-          <p className="required text-sm">{errors.Group.message}</p>
-        )}
-        {errors.GroupOther && (
-          <p className="required text-sm">{errors.GroupOther.message}</p>
         )}
 
         {/* No of parents Input */}

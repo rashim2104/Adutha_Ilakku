@@ -6,7 +6,13 @@ export async function POST(req){
     await connectMongoDB();
     try{
     const data = await req.json();
-    const student = await Details.findOne({ ae_id : data.id });
+    let student;
+    if(data.action !== 'short'){
+    student = await Details.findOne({ ae_id : data.id });
+    }else{
+    const regex = new RegExp(data.id + "$"); 
+    student = await Details.findOne({ ae_id: regex });
+    }
     if(!student){
         return NextResponse.json({message: "Student not found"},{status : 400});
     }
