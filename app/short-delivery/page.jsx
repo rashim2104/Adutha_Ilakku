@@ -1,11 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 
 export default function Delivery() {
   const [id, setId] = useState("");
   const [result, setResult] = useState({});
   const [kits, setKits] = useState(0);
+
+  const idInputRef = useRef(null); 
+
 
   const handleChange = (e) => {
     setId(e.target.value);
@@ -25,6 +28,7 @@ export default function Delivery() {
         setResult({});
         setId("");
         setKits(0);
+        idInputRef.current.focus();
       }else{
         const data = await response.json();
         toast.error(data.message);
@@ -70,7 +74,7 @@ export default function Delivery() {
       <div className="flex p-6 flex-col justify-center">
         <label htmlFor="" className="mb-3">ID Number: </label>
         <div className="flex">
-          <input className="input" type="tel" value={id} placeholder="XXXX" onChange={handleChange} style={{ textAlign: 'center', outline: 'none' }}/>      
+          <input className="input"    ref={idInputRef}  type="tel" value={id} placeholder="XXXX" onChange={handleChange} style={{ textAlign: 'center', outline: 'none' }}/>      
       </div>
       </div>
       {result.Name && (
