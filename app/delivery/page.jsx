@@ -38,7 +38,7 @@ export default function Delivery() {
     try {
       const response = await fetch(`/api/getDetails`, {
         method: "POST",
-        body: JSON.stringify({ id: "LMES"+id }),
+        body: JSON.stringify({ id: id }),
         headers: {
           "Content-Type": "application/json",
         },

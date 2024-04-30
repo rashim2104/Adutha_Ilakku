@@ -28,7 +28,7 @@ const DetailSchema = new Schema({
   Delivered: {
     type: Number,
     default: 0,
-  },
+  },  
   ae_id: {
     type: String,
     required: true,
