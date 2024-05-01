@@ -24,7 +24,7 @@ export default function Form() {
     },
   });
   const [loading, setLoading] = useState(false);
-  const [isDownload, setIsDownload] = useState("ABC12340O");
+  const [isDownload, setIsDownload] = useState("");
 
   const classValue = watch("Class");
   const groupValue = watch("Group");
