@@ -30,7 +30,8 @@ export default function Form() {
   const groupValue = watch("Group");
 
   const onSubmit = async (data) => {
-    console.log(data);
+    toast.warning("Form is closed now");
+    return;
     setLoading(true);
     let respData;
     try {
