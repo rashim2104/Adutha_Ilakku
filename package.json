@@ -16,7 +16,7 @@
     "file-saver": "^2.0.5",
     "jsqr": "^1.4.0",
     "mongoose": "^8.3.2",
-    "next": "14.2.3",
+    "next": "^14.2.18",
     "next-barcode": "^1.5.0",
     "next-joi": "^2.2.1",
     "next-qrcode": "^2.5.1",
