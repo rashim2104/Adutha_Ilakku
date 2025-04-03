@@ -16,13 +16,14 @@
     "file-saver": "^2.0.5",
     "jsqr": "^1.4.0",
     "mongoose": "^8.3.2",
-    "next": "^14.2.18",
+    "next": "^14.2.26",
     "next-barcode": "^1.5.0",
     "next-joi": "^2.2.1",
     "next-qrcode": "^2.5.1",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
+    "react-select": "^5.10.1",
     "sonner": "^1.4.41"
   },
   "devDependencies": {
